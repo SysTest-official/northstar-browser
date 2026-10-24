@@ -1,0 +1,38 @@
+{
+  "name": "northstar-browser",
+  "version": "0.2.0",
+  "private": true,
+  "productName": "Northstar",
+  "desktopName": "northstar",
+  "description": "A privacy-minded desktop browser built with Electron and Blink",
+  "author": "Northstar",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist:linux": "electron-builder --linux AppImage",
+    "dist:linux:deb": "electron-builder --linux deb",
+    "dist:windows": "electron-builder --win nsis",
+    "dist:mac": "electron-builder --mac dmg zip"
+  },
+  "engines": { "node": ">=22.12.0" },
+  "build": {
+    "appId": "com.northstar.browser",
+    "productName": "Northstar",
+    "executableName": "northstar",
+    "asar": true,
+    "directories": { "output": "release" },
+    "files": ["main.js", "preload.js", "index.html", "renderer.js", "styles.css", "start.html", "error.html", "IMPROVEMENTS.md", "package.json"],
+    "artifactName": "Northstar-${version}-${os}-${arch}.${ext}",
+    "linux": { "category": "Network;WebBrowser", "syncDesktopName": true, "icon": "assets/icon.png", "target": ["AppImage"] },
+    "win": { "icon": "assets/icon.ico", "target": ["nsis"] },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true },
+    "mac": { "category": "public.app-category.productivity", "target": ["dmg", "zip"] }
+  },
+  "devDependencies": {
+    "electron": "^45.0.0",
+    "electron-builder": "26.18.0"
+  }
+}
