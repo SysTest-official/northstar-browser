@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f8fb"><title>Northstar</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="chrome">
+    <div class="tabline">
+      <div class="brand" aria-label="Northstar browser"><span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 14.5 9.5 21.5 12l-7 2.5-2.5 7-2.5-7-7-2.5 7-2.5L12 2.5Z"/><circle cx="12" cy="12" r="1.7"/></svg></span><span class="brand-name">northstar</span></div>
+      <span class="private-indicator" id="privateIndicator" hidden>◈ PRIVATE</span>
+      <div class="tabs" id="tabs" role="tablist" aria-label="Open tabs"></div>
+      <button class="new-tab" id="newTab" title="New tab · Ctrl+T" aria-label="New tab"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      <span class="window-space"></span>
+    </div>
+    <div class="toolbar">
+      <div class="navigation">
+        <button class="tool-button" id="back" title="Back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="m14.5 5-7 7 7 7"/></svg></button>
+        <button class="tool-button" id="forward" title="Forward" aria-label="Forward"><svg viewBox="0 0 24 24"><path d="m9.5 5 7 7-7 7"/></svg></button>
+        <button class="tool-button reload-button" id="reload" title="Reload" aria-label="Reload"><svg viewBox="0 0 24 24"><path d="M20 7v5h-5M4.8 9a7.5 7.5 0 0 1 12.7-2L20 12M4 17v-5h5m10.2 3a7.5 7.5 0 0 1-12.7 2L4 12"/></svg></button>
+      </div>
+      <div class="address-wrap" id="addressWrap">
+        <span class="site-status" id="secure" aria-label="Connection status"><svg viewBox="0 0 24 24"><path d="M12 3.2 20 6v5.4c0 5-3.4 8.3-8 9.8-4.6-1.5-8-4.8-8-9.8V6l8-2.8Z"/><path d="m8.5 12 2.2 2.2 4.8-4.8"/></svg></span>
+        <input id="address" aria-label="Search or enter address" placeholder="Search Google or enter an address" autocomplete="off" spellcheck="false">
+        <button id="bookmark" class="address-action" title="Save this page · Ctrl+D" aria-label="Save this page"><svg viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg></button>
+      </div>
+      <div class="toolbar-actions">
+        <button class="utility-button media-toggle" id="mediaToggle" title="Play or pause media · Alt+M" aria-label="Play or pause media" hidden><svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4H4Zm12-2a6 6 0 0 1 0 8m2-11a10 10 0 0 1 0 14"/></svg><span>Media</span></button>
+        <button class="utility-button" id="downloads" title="Show downloads"><svg viewBox="0 0 24 24"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 16v4h16v-4"/></svg><span>Downloads</span><b id="downloadBadge" hidden></b></button>
+        <button class="profile-button" id="profile" title="Your browser profile" aria-label="Your browser profile"><span class="profile-orbit"></span><span>A</span></button>
+        <button class="menu-button" id="menu" title="Customize and control Northstar" aria-label="Browser menu"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></button>
+      </div>
+    </div>
+    <nav class="bookmarks" id="bookmarkBar" aria-label="Favorites">
+      <span class="favorites-icon"><svg viewBox="0 0 24 24"><path d="M5 4.5h14v16l-7-4-7 4v-16Z"/></svg></span><span class="bar-label">Favorites</span>
+      <div class="bookmark-divider"></div><div id="bookmarkItems"></div><button class="add-favorite" id="addFavorite"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>Add page</span></button>
+      <span class="bookmark-spacer"></span><span class="sync-status"><span id="tabCount">1 tab</span><i></i> Ready for wherever</span>
+    </nav>
+  </header>
+  <div class="menu-panel" id="menuPanel" hidden>
+    <div class="menu-profile"><div class="profile-large" id="profileLarge">A</div><div><strong id="profileWelcomeName">Welcome, Andrew</strong><span>Your browsing stays on this device</span></div></div>
+    <button class="menu-row profile-switcher-trigger" data-action="toggle-profiles"><span class="menu-symbol">◉</span><span><strong>Switch profile</strong><small>Local profiles on this device</small></span><span class="switch-chevron">⌄</span></button>
+    <div class="profile-list" id="profileList" hidden></div>
+    <div class="menu-separator"></div>
+    <button class="menu-row" data-action="history"><span class="menu-symbol">◷</span><span><strong>History</strong><small>Your recently visited pages</small></span><kbd>Ctrl H</kbd></button>
+    <button class="menu-row" data-action="downloads"><span class="menu-symbol">↓</span><span><strong>Downloads</strong><small>Open your downloads folder</small></span></button>
+    <button class="menu-row" data-action="restore-closed"><span class="menu-symbol">↶</span><span><strong>Reopen closed tab</strong><small>Bring back your last closed page</small></span><kbd>Ctrl Shift T</kbd></button>
+    <div class="recent-closed-list" id="recentClosedList" aria-label="Recently closed tabs"></div>
+    <button class="menu-row" data-action="private-tab"><span class="menu-symbol">◈</span><span><strong>New private tab</strong><small>Temporary, memory-only browsing</small></span><kbd>Ctrl Shift N</kbd></button>
+    <button class="menu-row" data-action="sort-bookmarks"><span class="menu-symbol">↕</span><span><strong>Sort favorites</strong><small>Arrange alphabetically</small></span></button>
+    <button class="menu-row" data-action="import-bookmarks"><span class="menu-symbol">↑</span><span><strong>Import favorites</strong><small>Bring a JSON or HTML list</small></span></button>
+    <button class="menu-row" data-action="export-bookmarks"><span class="menu-symbol">↓</span><span><strong>Export favorites</strong><small>Save a portable copy</small></span></button>
+    <button class="menu-row" data-action="export-bookmarks-html"><span class="menu-symbol">↧</span><span><strong>Export favorites as HTML</strong><small>Use in other browsers</small></span></button>
+    <button class="menu-row" data-action="export-history"><span class="menu-symbol">◷</span><span><strong>Export history</strong><small>Save a local JSON copy</small></span></button>
+    <button class="menu-row" data-action="export-settings"><span class="menu-symbol">⚙</span><span><strong>Export settings</strong><small>Back up your preferences</small></span></button>
+    <button class="menu-row" data-action="import-settings"><span class="menu-symbol">↑</span><span><strong>Import settings</strong><small>Restore preferences from JSON</small></span></button>
+    <button class="menu-row" data-action="settings"><span class="menu-symbol">⚙</span><span><strong>Settings</strong><small>Make Northstar yours</small></span></button>
+    <div class="menu-separator"></div>
+    <div class="zoom-row"><span>Page zoom</span><button id="zoomOut" aria-label="Zoom out">−</button><span id="zoomLevel">100%</span><button id="zoomIn" aria-label="Zoom in">＋</button></div>
+    <div class="page-actions"><button data-page-action="home">Home</button><button data-page-action="find">Find</button><button data-page-action="print">Print</button><button data-page-action="save-page">Save page</button></div>
+    <div class="menu-foot"><span class="mini-mark">✦</span> NORTHSTAR <span>·</span> BLINK ENGINE</div>
+  </div>
+  <aside class="history-panel" id="historyPanel" hidden>
+    <div class="history-head"><div><span class="eyebrow">YOUR TRAIL</span><h2>History</h2></div><button id="closeHistory" class="panel-close" aria-label="Close history">×</button></div>
+    <div class="history-search"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 4.2 4.2"/></svg><input id="historySearch" placeholder="Filter your history"></div>
+    <div class="history-list" id="historyList"></div>
+    <button class="clear-history" id="clearHistory">Clear browsing history</button>
+  </aside>
+  <aside class="settings-panel" id="settingsPanel" hidden>
+    <div class="history-head"><div><span class="eyebrow">YOUR NORTHSTAR</span><h2>Settings</h2></div><button id="closeSettings" class="panel-close" aria-label="Close settings">×</button></div>
+    <section class="setting-section"><h3>Appearance</h3><p>Choose the light that feels right.</p><div class="choice-row" id="themeChoices"><button data-theme-choice="system"><span class="theme-preview system-preview"></span><span>System</span></button><button data-theme-choice="light"><span class="theme-preview light-preview"></span><span>Light</span></button><button data-theme-choice="dark"><span class="theme-preview dark-preview"></span><span>Dark</span></button></div></section>
+    <section class="setting-section"><h3>Browser density</h3><p>Choose how much room the toolbar takes.</p><div class="density-choices"><button data-density="comfortable">Comfortable</button><button data-density="compact">Compact</button></div></section>
+    <section class="setting-section"><h3>Chrome text size</h3><p>Scale browser controls for easier reading.</p><div class="density-choices"><button data-text-scale="90">Small</button><button data-text-scale="100">Default</button><button data-text-scale="110">Large</button></div></section>
+    <section class="setting-section"><h3>Startup</h3><p>Pick up where your last session ended.</p><label class="privacy-toggle"><span><strong>Restore previous tabs</strong><small>Turn off to start with a fresh tab</small></span><input type="checkbox" id="restoreSessionToggle" checked><i></i></label></section>
+    <section class="setting-section"><h3>Home page</h3><p>Choose where Home and new tabs take you.</p><input class="setting-input" id="homePageInput" placeholder="Northstar start page or https://example.com" aria-label="Home page address"><button class="privacy-action" id="saveHomePage">Save home page</button></section>
+    <section class="setting-section"><h3>Local profile</h3><p>Make this browser feel like yours.</p><label class="profile-setting">Name<input id="profileNameInput" maxlength="24" placeholder="Your name"></label><label class="profile-setting">Avatar<select id="profileAvatarInput"><option value="A">A</option><option value="✦">✦</option><option value="☀">☀</option><option value="🌙">🌙</option><option value="🧭">🧭</option></select></label><label class="profile-setting">Accent color<input id="profileAccentInput" type="color" value="#596fe9"></label><button class="privacy-action" id="resetProfile">Reset profile appearance</button></section>
+    <section class="setting-section"><h3>Search engine</h3><p>Pick the search you want in the address bar.</p><div class="engine-list" id="engineChoices"><button data-engine="google"><span class="engine-letter google-letter">G</span><span>Google</span><span class="choice-check">✓</span></button><button data-engine="bing"><span class="engine-letter bing-letter">b</span><span>Bing</span><span class="choice-check">✓</span></button><button data-engine="duckduckgo"><span class="engine-letter duck-letter">D</span><span>DuckDuckGo</span><span class="choice-check">✓</span></button><button data-engine="brave"><span class="engine-letter brave-letter">B</span><span>Brave Search</span><span class="choice-check">✓</span></button></div></section>
+    <section class="setting-section privacy-settings"><h3>Privacy</h3><p>Choose a few simple protections.</p><label class="privacy-toggle"><span><strong>Send “Do Not Track”</strong><small>Ask sites not to track this browser</small></span><input type="checkbox" id="dntToggle"><i></i></label><button class="privacy-action" id="clearSiteCookies">Clear cookies for this site</button><button class="privacy-action" id="clearCache">Clear cached files</button><button class="privacy-action" id="showSitePermissions">View site permissions</button><div class="permission-summary" id="permissionSummary">Permissions are requested when a site needs them.</div><button class="privacy-action" id="revokeSitePermissions">Forget saved choices for this site</button><button class="privacy-action danger-action" id="resetBrowserData">Reset browser data…</button></section>
+    <section class="setting-section"><h3>About & troubleshooting</h3><div class="about-details" id="aboutDetails">Loading browser details…</div><div class="permission-summary" id="aboutPrivacy"></div><p>For a clean start, launch with <code>--safe-mode</code>. It opens without restoring the saved session and preserves your saved session for later.</p><button class="privacy-action" id="refreshMemory">Refresh memory use</button><div class="permission-summary" id="memoryUsage">Memory use has not been measured.</div><button class="privacy-action" id="copyDiagnostics">Copy diagnostics</button><button class="privacy-action" id="restartSafeMode">Restart in safe mode…</button><button class="privacy-action" id="openDiagnosticLog">Open local diagnostic log</button></section>
+    <section class="setting-section shortcut-reference"><h3>Keyboard shortcuts</h3><div><span>Focus address</span><kbd>Ctrl L</kbd><span>New tab</span><kbd>Ctrl T</kbd><span>Private tab</span><kbd>Ctrl Shift N</kbd><span>Close tab</span><kbd>Ctrl W</kbd><span>Reopen tab</span><kbd>Ctrl Shift T</kbd><span>History</span><kbd>Ctrl H</kbd><span>Favorite page</span><kbd>Ctrl D</kbd><span>Play / pause media</span><kbd>Alt M</kbd></div></section>
+    <div class="settings-note"><span>↗</span> Preferences stay on this device.</div>
+  </aside>
+  <aside class="downloads-panel" id="downloadsPanel" hidden>
+    <div class="history-head"><div><span class="eyebrow">YOUR FILES</span><h2>Downloads</h2></div><button id="closeDownloads" class="panel-close" aria-label="Close downloads">×</button></div>
+    <div class="download-list" id="downloadList"></div>
+    <div class="download-footer"><button id="openDownloadsFolder">Open downloads folder</button><button id="clearDownloads">Clear list</button></div>
+  </aside>
+  <div class="find-bar" id="findBar" hidden><input id="findInput" placeholder="Find in page" aria-label="Find in page"><span id="findCount">0 results</span><button id="findPrevious" aria-label="Previous match">↑</button><button id="findNext" aria-label="Next match">↓</button><button id="findClose" aria-label="Close find">×</button></div>
+  <div class="toast" id="toast"><span class="toast-dot"></span><span id="toastMessage"></span><button id="toastAction" hidden>Reload</button></div>
+    <div class="tab-context" id="tabContext" hidden>
+    <button data-tab-action="duplicate">Duplicate tab</button><button data-tab-action="pin">Pin tab</button><button data-tab-action="mute">Mute tab</button><button data-tab-action="pip">Picture in picture</button><button data-tab-action="discard">Suspend tab</button><div></div><button data-tab-action="close">Close tab</button><button data-tab-action="close-others">Close other tabs</button>
+  </div>
+  <div class="bookmark-context" id="bookmarkContext" hidden><button data-bookmark-action="edit">Edit favorite</button><button data-bookmark-action="remove">Remove favorite</button></div>
+  <input id="bookmarkImport" type="file" accept=".json,.html,.htm,application/json,text/html" hidden>
+  <input id="settingsImport" type="file" accept=".json,application/json" hidden>
+  <dialog id="bookmarkDialog"><form id="bookmarkForm"><span class="dialog-eyebrow">YOUR FAVORITES</span><h2>Edit favorite</h2><label for="favoriteTitle">Name</label><input id="favoriteTitle" maxlength="80" required><label for="favoriteUrl">Website address</label><input id="favoriteUrl" type="url" required><div class="dialog-actions"><button type="button" id="cancelFavorite">Cancel</button><button type="submit" class="save-shortcut">Save changes</button></div></form></dialog>
+  <dialog id="profileDialog"><form id="profileForm"><span class="dialog-eyebrow">NEW LOCAL PROFILE</span><h2>Create a profile</h2><p class="profile-dialog-note">Each profile keeps its browsing data separate on this device.</p><label for="newProfileName">Profile name</label><input id="newProfileName" maxlength="32" autocomplete="off" required><label for="newProfileAvatar">Avatar</label><select id="newProfileAvatar"><option>A</option><option>✦</option><option>☀</option><option>🌙</option><option>🧭</option></select><div class="dialog-actions"><button type="button" id="cancelProfile">Cancel</button><button type="submit" class="save-shortcut">Create profile</button></div></form></dialog>
+  <script src="renderer.js"></script>
+</body>
+</html>
