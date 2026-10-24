@@ -11,8 +11,8 @@ Northstar is an Electron desktop browser built on Chromium/Blink. It includes ta
 ## Build installers
 
 - `npm run pack` creates an unpacked app for the current platform.
-- `npm run dist:linux` creates a Linux AppImage.
-- `npm run dist:linux:deb` creates a Linux deb package after the project homepage and Debian maintainer contact are set in package metadata.
+- `npm run dist:linux` creates Linux AppImage and deb packages.
+- `npm run dist:linux:deb` creates just the Linux deb package.
 - `npm run dist:windows` creates a Windows NSIS installer.
 - `npm run dist:mac` creates macOS dmg and zip packages.
 
@@ -26,4 +26,4 @@ Profile data is stored in Electron's `userData` directory under `profiles/`. Rem
 
 ## Release checks
 
-Run `npm audit` to inspect dependency advisories and `npm run pack` to validate the packaged app for the current platform. Installer signing, notarization, publisher details for deb packages, update hosting, and release automation must be configured by the distributor.
+Run `npm audit` to inspect dependency advisories and `npm run pack` to validate the packaged app for the current platform. Installer signing, notarization, Windows/macOS publisher details, update hosting, and release automation must be configured by the distributor.
