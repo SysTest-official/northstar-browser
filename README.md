@@ -1,36 +1,29 @@
-# Northstar Browser
+# Northstar
 
-A desktop browser built with Electron and Chromium/Blink.
-
-**Website:** https://systest-official.github.io/website/  
-**Contact:** northstar-browser@proton.me  
-**License:** MIT
+Northstar is an Electron desktop browser built on Chromium/Blink. It includes tabbed browsing, private windows/tabs, bookmarks, history, downloads, configurable search, and local browser profiles.
 
 ## Run from source
 
-Use Node.js 22.12 or later:
+- Install Node.js 22.12 or newer.
+- Run `npm install`.
+- Run `npm start`.
 
-```sh
-npm install
-npm start
-```
+## Build installers
 
-## Package
+- `npm run pack` creates an unpacked app for the current platform.
+- `npm run dist:linux` creates a Linux AppImage.
+- `npm run dist:linux:deb` creates a Linux deb package after the project homepage and Debian maintainer contact are set in package metadata.
+- `npm run dist:windows` creates a Windows NSIS installer.
+- `npm run dist:mac` creates macOS dmg and zip packages.
 
-```sh
-npm run pack
-npm run dist:linux
-npm run dist:windows
-npm run dist:mac
-```
+Installer builds should be run on the target operating system. Platform signing and notarization credentials are required for trusted signed releases.
 
-The Linux AppImage target is ready to build. Debian packages need the project homepage and maintainer contact in package metadata. Windows and macOS releases should be built and signed on their target platforms.
+## Local profiles and data
 
-## Local profiles
+Profiles are on-device browser identities; they do not use server sign-in or cloud sync. Each profile has separate cookies, site storage, permissions, settings, favorites, history, and saved tabs. Private tabs use a separate non-persistent session. The existing default profile keeps the earlier Northstar storage partition, and its session and permission files are migrated on first launch.
 
-Northstar profiles are stored locally on this device. Each profile keeps separate cookies, site storage, permissions, preferences, favorites, history, and saved tabs. There is no server sign-in or cloud sync. Private tabs use a separate non-persistent session.
+Profile data is stored in Electron's `userData` directory under `profiles/`. Removing a profile clears its local session and browser storage.
 
-## Project status
+## Release checks
 
-Northstar is an early release. Some browser features and platform packages are still being refined. See [IMPROVEMENTS.md](IMPROVEMENTS.md) for the project change log.
-
+Run `npm audit` to inspect dependency advisories and `npm run pack` to validate the packaged app for the current platform. Installer signing, notarization, publisher details for deb packages, update hosting, and release automation must be configured by the distributor.
